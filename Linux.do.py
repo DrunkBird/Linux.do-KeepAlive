@@ -174,7 +174,7 @@ class LinuxDoBrowser:
                 # )
                 # self.driver.execute_script("arguments[0].click();", login_button)
                 self.driver.ele('登录').click()
-                self.driver..ele('@type=email').input(account)
+                self.driver.ele('@type=email').input(account)
                 self.driver.ele('@type=password').input(password)
                 self.driver.ele('@id=login-button').click()
 
