@@ -179,7 +179,7 @@ class LinuxDoBrowser:
                 # self.driver.execute_script("arguments[0].click();", login_button)
                 self.driver.ele('登录').click()
             except Exception as e:
-                logging.info("尝试备用登录按钮选择器")
+                logging.info("尝试备用登录按钮选择器","e")
                 login_button = WebDriverWait(self.driver, 20).until(
                     EC.element_to_be_clickable((By.CSS_SELECTOR, "button.login-button"))
                 )
