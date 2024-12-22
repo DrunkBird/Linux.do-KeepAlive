@@ -126,7 +126,6 @@ class LinuxDoBrowser:
     def create_driver(self):
         try:
             # service = Service(chromedriver_path)
-            self.driver = Chromium(co)
             # self.driver = webdriver.Chrome(service=service, options=chrome_options)
 
             # # 删除 navigator.webdriver 标志
@@ -140,6 +139,8 @@ class LinuxDoBrowser:
             # # 设置页面加载超时
             # self.driver.set_page_load_timeout(30)
             # self.driver.implicitly_wait(10)
+            browser = Chromium(chrome_options)
+            self.driver = browser.new_tab()
 
             return True
 
@@ -160,18 +161,23 @@ class LinuxDoBrowser:
             logging.info(f"--- 开始尝试登录：{self.username}---")
 
             # 先等待页面加载完成
-            WebDriverWait(self.driver, 20).until(
-                lambda driver: driver.execute_script('return document.readyState') == 'complete'
-            )
+            # WebDriverWait(self.driver, 20).until(
+            #     lambda driver: driver.execute_script('return document.readyState') == 'complete'
+            # )
 
             # 确保在点击之前页面已完全加载
             time.sleep(3)
 
             try:
-                login_button = WebDriverWait(self.driver, 20).until(
-                    EC.element_to_be_clickable((By.CSS_SELECTOR, ".login-button .d-button-label"))
-                )
-                self.driver.execute_script("arguments[0].click();", login_button)
+                # login_button = WebDriverWait(self.driver, 20).until(
+                #     EC.element_to_be_clickable((By.CSS_SELECTOR, ".login-button .d-button-label"))
+                # )
+                # self.driver.execute_script("arguments[0].click();", login_button)
+                self.driver.ele('登录').click()
+                self.driver..ele('@type=email').input(account)
+                self.driver.ele('@type=password').input(password)
+                self.driver.ele('@id=login-button').click()
+
             except:
                 logging.info("尝试备用登录按钮选择器")
                 login_button = WebDriverWait(self.driver, 20).until(
@@ -179,43 +185,44 @@ class LinuxDoBrowser:
                 )
                 self.driver.execute_script("arguments[0].click();", login_button)
 
-            # 等待登录表单出现
-            WebDriverWait(self.driver, 20).until(
-                EC.presence_of_element_located((By.ID, "login-form"))
-            )
+            # # 等待登录表单出现
+            # WebDriverWait(self.driver, 20).until(
+            #     EC.presence_of_element_located((By.ID, "login-form"))
+            # )
 
-            # 输入用户名
-            username_field = WebDriverWait(self.driver, 20).until(
-                EC.presence_of_element_located((By.ID, "login-account-name"))
-            )
-            username_field.clear()
-            time.sleep(1)
-            self.simulate_typing(username_field, self.username)
+            # # 输入用户名
+            # username_field = WebDriverWait(self.driver, 20).until(
+            #     EC.presence_of_element_located((By.ID, "login-account-name"))
+            # )
+            # username_field.clear()
+            # time.sleep(1)
+            # self.simulate_typing(username_field, self.username)
 
-            # 输入密码
-            password_field = WebDriverWait(self.driver, 20).until(
-                EC.presence_of_element_located((By.ID, "login-account-password"))
-            )
-            password_field.clear()
-            time.sleep(1)
-            self.simulate_typing(password_field, self.password)
+            # # 输入密码
+            # password_field = WebDriverWait(self.driver, 20).until(
+            #     EC.presence_of_element_located((By.ID, "login-account-password"))
+            # )
+            # password_field.clear()
+            # time.sleep(1)
+            # self.simulate_typing(password_field, self.password)
 
-            # 提交登录
-            submit_button = WebDriverWait(self.driver, 20).until(
-                EC.element_to_be_clickable((By.ID, "login-button"))
-            )
-            time.sleep(1)
-            self.driver.execute_script("arguments[0].click();", submit_button)
+            # # 提交登录
+            # submit_button = WebDriverWait(self.driver, 20).until(
+            #     EC.element_to_be_clickable((By.ID, "login-button"))
+            # )
+            # time.sleep(1)
+            # self.driver.execute_script("arguments[0].click();", submit_button)
 
             # 验证登录结果
             try:
-                WebDriverWait(self.driver, 15).until(
-                    EC.presence_of_element_located((By.CSS_SELECTOR, "#current-user"))
-                )
-                logging.info("登录成功")
-                return True
+                self.driver.get('https://connect.linux.do/')
+                text = (self.driver.ele('xpath://html/body/h1').text)
+                if len(text)>0
+                    logging.info("登录成功:"+ text )
+                    return True
             except TimeoutException:
-                error_element = self.driver.find_elements(By.CSS_SELECTOR, "#modal-alert.alert-error")
+                # error_element = self.driver.find_elements(By.CSS_SELECTOR, "#modal-alert.alert-error")
+                error_element ="error"
                 if error_element:
                     logging.error(f"登录失败：{error_element[0].text}")
                 else:
