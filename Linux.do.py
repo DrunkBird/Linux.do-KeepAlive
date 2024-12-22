@@ -217,7 +217,7 @@ class LinuxDoBrowser:
             try:
                 self.driver.get('https://connect.linux.do/')
                 text = (self.driver.ele('xpath://html/body/h1').text)
-                if len(text)>0
+                if len(text)>0:
                     logging.info("登录成功:"+ text )
                     return True
             except TimeoutException:
