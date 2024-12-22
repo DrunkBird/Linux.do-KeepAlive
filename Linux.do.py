@@ -170,6 +170,7 @@ class LinuxDoBrowser:
             # )
 
             # 确保在点击之前页面已完全加载
+            self.driver.get(HOME_URL)
             time.sleep(3)
 
             try:
