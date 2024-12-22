@@ -5,6 +5,7 @@ import logging
 import random
 from os import path
 from io import StringIO
+from DrissionPage import Chromium, ChromiumOptions
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
@@ -85,7 +86,7 @@ class LinuxDoBrowser:
         logging.info("启动 Selenium")
 
         global chrome_options
-        chrome_options = webdriver.ChromeOptions()
+        chrome_options = ChromiumOptions()
 
         # 青龙面板特定的 Chrome 选项
         chrome_options.add_argument("--no-sandbox")
@@ -124,21 +125,21 @@ class LinuxDoBrowser:
 
     def create_driver(self):
         try:
-            service = Service(chromedriver_path)
-            self.driver = webdriver.Chrome(service=service, options=chrome_options)
+            # service = Service(chromedriver_path)
+            self.driver = Chromium(co)
+            # self.driver = webdriver.Chrome(service=service, options=chrome_options)
 
-            # 删除 navigator.webdriver 标志
-            self.driver.execute_cdp_cmd('Page.addScriptToEvaluateOnNewDocument', {
-                'source': '''
-                    Object.defineProperty(navigator, 'webdriver', {
-                        get: () => undefined
-                    })
-                '''
-            })
-
-            # 设置页面加载超时
-            self.driver.set_page_load_timeout(30)
-            self.driver.implicitly_wait(10)
+            # # 删除 navigator.webdriver 标志
+            # self.driver.execute_cdp_cmd('Page.addScriptToEvaluateOnNewDocument', {
+            #     'source': '''
+            #         Object.defineProperty(navigator, 'webdriver', {
+            #             get: () => undefined
+            #         })
+            #     '''
+            # })
+            # # 设置页面加载超时
+            # self.driver.set_page_load_timeout(30)
+            # self.driver.implicitly_wait(10)
 
             return True
 
