@@ -89,6 +89,7 @@ class LinuxDoBrowser:
         chrome_options = ChromiumOptions()
         chrome_options.set_argument('--disable-blink-features=AutomationControlled')
         chrome_options.set_user_agent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.3029.110 Safari/537.3')
+        chrome_options.headless()
 
         # # 青龙面板特定的 Chrome 选项
         # chrome_options.add_argument("--no-sandbox")
@@ -141,6 +142,7 @@ class LinuxDoBrowser:
             # # 设置页面加载超时
             # self.driver.set_page_load_timeout(30)
             # self.driver.implicitly_wait(10)
+            
             browser = Chromium(chrome_options)
             self.driver = browser.new_tab()
 
