@@ -178,11 +178,7 @@ class LinuxDoBrowser:
                 # )
                 # self.driver.execute_script("arguments[0].click();", login_button)
                 self.driver.ele('登录').click()
-                self.driver.ele('@type=email').input(account)
-                self.driver.ele('@type=password').input(password)
-                self.driver.ele('@id=login-button').click()
-
-            except:
+            except Exception as e:
                 logging.info("尝试备用登录按钮选择器")
                 login_button = WebDriverWait(self.driver, 20).until(
                     EC.element_to_be_clickable((By.CSS_SELECTOR, "button.login-button"))
@@ -194,6 +190,11 @@ class LinuxDoBrowser:
             #     EC.presence_of_element_located((By.ID, "login-form"))
             # )
 
+            self.driver.ele('@type=email').input(self.username)
+            self.driver.ele('@type=password').input(self.password)
+            self.driver.ele('@id=login-button').click()
+
+            
             # # 输入用户名
             # username_field = WebDriverWait(self.driver, 20).until(
             #     EC.presence_of_element_located((By.ID, "login-account-name"))
