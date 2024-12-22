@@ -24,6 +24,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y chromium-browser chromium-chromedriver
           pip install selenium
+          pip install DrissionPage
 
       - name: Run Linux.do script
         env:
